@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Portal - Courses</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9fafb;
+    }
+    .sidebar {
+      background-color: white;
+      height: 100vh;
+      position: fixed;
+      transition: all 0.3s ease;
+    }
+    .sidebar-hidden {
+      transform: translateX(-100%);
+    }
+    .nav-link {
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    .nav-link:hover {
+      background-color: #ffedd5;
+    }
+    .nav-link.active {
+      background-color: #f97316;
+      color: white;
+    }
+    .card {
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+    }
+    .course-card {
+      border-radius: 12px;
+      border-top: 5px solid;
+      transition: all 0.3s ease;
+    }
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+    }
+    .progress-bar {
+      height: 8px;
+      border-radius: 4px;
+      background-color: #e5e7eb;
+    }
+    .progress-value {
+      height: 8px;
+      border-radius: 4px;
+    }
+    .tab-button {
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+    .tab-button.active {
+      border-bottom-color: #f97316;
+      color: #f97316;
+    }
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Mobile Nav Toggle -->
+  <div class="fixed top-4 left-4 z-30 md:hidden">
+    <button id="menu-toggle" class="p-2 bg-white rounded-lg shadow-md text-gray-700">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+
+  <!-- Sidebar Navigation -->
+  <aside id="sidebar" class="sidebar w-64 z-20 bg-white shadow-md md:block hidden overflow-y-auto">
+    <div class="px-6 py-4">
+      <h2 class="text-xl font-bold text-gray-800">Student Portal</h2>
+    </div>
+    <div class="px-3 py-2">
+      <ul class="space-y-2">
+        <li>
+          <a href="dashboard.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-home mr-3 w-5"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="schedule.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-calendar-alt mr-3 w-5"></i>
+            <span>Schedule</span>
+          </a>
+        </li>
+        <li>
+          <a href="courses.html" class="nav-link active flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-book mr-3 w-5"></i>
+            <span>Courses</span>
+          </a>
+        </li>
+        <li>
+          <a href="grades.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-chart-bar mr-3 w-5"></i>
+            <span>Grades</span>
+          </a>
+        </li>
+        <li>
+          <a href="attendance.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-calendar-check mr-3 w-5"></i>
+            <span>Attendance</span>
+          </a>
+        </li>
+        <li>
+          <a href="assignments.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-sticky-note mr-3 w-5"></i>
+            <span>Assignments</span>
+          </a>
+        </li>
+        <li>
+          <a href="profile.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-user mr-3 w-5"></i>
+            <span>Profile</span>
+          </a>
+        </li>
+        <li>
+          <a href="settings.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-cog mr-3 w-5"></i>
+            <span>Settings</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content transition-all duration-300 md:ml-64 min-h-screen pb-16">
+    <!-- Top Navigation -->
+    <nav class="bg-white shadow-sm px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center">
+        <h1 class="text-xl font-semibold text-gray-800">Courses</h1>
+      </div>
+      <div class="flex items-center space-x-4">
+        <button class="p-2 text-gray-600 hover:text-orange-500 rounded-full hover:bg-orange-50">
+          <i class="fas fa-bell"></i>
+        </button>
+        <a href="profile.html" class="relative bg-orange-50 p-1 rounded-full">
+          <img src="https://ui-avatars.com/api/?name=Pratham+Sharma&background=f97316&color=fff" alt="Profile" class="w-8 h-8 rounded-full">
+          <span class="absolute bottom-0 right-0 block h-2 w-2 rounded-full bg-green-500 ring-2 ring-white"></span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Courses Content -->
+    <div class="px-6 py-8">
+      <!-- Courses Header -->
+      <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg p-6 mb-8 text-white shadow-md">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-2xl font-bold">Your Courses</h2>
+            <p class="mt-1">Spring Semester 2025 • Total Credits: 14</p>
+          </div>
+          <div class="hidden md:block">
+            <select class="bg-white bg-opacity-20 text-white border-0 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-white">
+              <option>Spring Semester 2025</option>
+              <option>Fall Semester 2024</option>
+              <option>Spring Semester 2024</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter and Search -->
+      <div class="flex flex-col md:flex-row items-center justify-between mb-6">
+        <div class="flex items-center mb-4 md:mb-0">
+          <button class="tab-button active py-2 px-4 font-medium text-gray-800">Current Courses</button>
+          <button class="tab-button py-2 px-4 font-medium text-gray-500">Past Courses</button>
+          <button class="tab-button py-2 px-4 font-medium text-gray-500">Future Courses</button>
+        </div>
+        <div class="flex w-full md:w-auto">
+          <div class="relative flex-grow md:flex-grow-0 mr-2">
+            <input type="text" placeholder="Search courses..." class="w-full px-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <i class="fas fa-search text-gray-400"></i>
+            </div>
+          </div>
+          <div>
+            <select class="border border-gray-200 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700">
+              <option>All Departments</option>
+              <option>Computer Science</option>
+              <option>Mathematics</option>
+              <option>Engineering</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Current Courses Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <!-- Course 1 -->
+        <div class="course-card border-orange-500 bg-white p-6 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-orange-100 rounded-md flex items-center justify-center text-orange-600">
+              <i class="fas fa-code text-2xl"></i>
+            </div>
+            <span class="text-sm font-medium bg-orange-100 text-orange-600 px-2 py-1 rounded-full">3 Credits</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-800 mb-1">CS301: Algorithms & Data Structures</h3>
+          <p class="text-sm text-gray-500 mb-4">Prof. Jennifer Smith</p>
+          
+          <div class="flex justify-between items-center mb-2 text-sm">
+            <span class="text-gray-600">Progress</span>
+            <span class="text-gray-800 font-medium">75%</span>
+          </div>
+          <div class="progress-bar mb-4">
+            <div class="progress-value bg-orange-500" style="width: 75%"></div>
+          </div>
+          
+          <div class="flex justify-between mb-4">
+            <div class="text-center">
+              <p class="text-xs text-gray-500">Grade</p>
+              <p class="font-bold text-gray-800">A</p>
+            </div>
+            <div class="text-center">
+              <p class="text-xs text-gray-500">Schedule</p>
+              <p class="font-bold text-gray-800">MWF</p>
+            </div>
+            <div class="text-center">
+              <p class="text-xs text-gray-500">Time</p>
+              <p class="font-bold text-gray-800">9:00 AM</p>
+            </div>
+            <div class="text-center">
+              <p class="text-xs text-gray-500">Room</p>
+              <p class="font-bold text-gray-800">302B</p>
+            </div>
+          </div>
+          
+          <div class="flex space-x-2">
+            <a href="#" class="w-full bg-orange-500 text-white text-center py-2 rounded-md font-medium hover:bg-orange-600 transition">View Course</a>
+          </div>
+        </div>
+
+        <!-- Course 2 -->
+        <div class="course-card border-blue-500 bg-white p-6 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-blue-100 rounded-md flex items-center justify-center text-blue-600">
+              <i class="fas fa-microchip text-2xl"></i>
+            </div>
+            <span class="text-sm font-medium bg-blue-100 text-blue-600 px-2 py-1 rounded-full">4 Credits</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-800 mb-1">CS315: Operating Systems</h3>
+          <p class="text-sm text-gray-500 mb-4">Prof. David Johnson</p>
+          
+          <div class="flex justify-between items-center mb-2 text-sm">
+            <span class="text-gray-600">Progress</span>
+            <span class="text-gray-800 font-medium">60%</span>
+          </div>
+          <div class="progress-bar mb-4">
+            <div class="progress-value bg-blue-500" style="width: 60%"></div>
+          </div>
+          
+          <div class="flex justify-between mb-4">
+            <div class="text-center">
+              <p class="text-xs text-gray-500">Grade</p>
+              <p class="font-bold text-gray-800">B+</p>
+            </div>
+            <div class="text-center">
+              <p class="text-xs text-gray-500">Schedule</p>
+              <p class="font-bold text-gray-800">TR</p>
+            </div>
+            <div class="text-center">
+              <p class="text-xs text-gray-500">Time</p>
+              <p class="font-bold text-gray-800">11:00 AM</p>
+            </div>
+            <div class="text-center">
+              <p class="text-xs text-gray-500">Room</p>
+              <p class="font-bold text-gray-800">405A</p>
+            </div>
+          </div>
+          
+          <div class="flex space-x-2">
+            <a href="#" class="w-full bg-orange-500 text-white text-center py-2 rounded-md font-medium hover:bg-orange-600 transition">View Course</a>
+          </div>
+        </div>
+
+        <!-- Course 3 -->
+        <div class="course-card border-green-500 bg-white p-6 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-green-100 rounded-md flex items-center justify-center text-green-600">
+              <i class="fas fa-database text-2xl"></i>
+            </div>
+            <span class="text-sm font-medium bg-green-100 text-green-600 px-2 py-1 rounded-full">4 Credits</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-800 mb-1">CS280: Database Systems</h3>
+          <p class="text-sm text-gray-500 mb-4">Prof. Maria Rodriguez</p>
+          
+          <div class="flex justify-between items-center mb-2 text-sm">
+            <span class="text-gray-600">Progress</span>
+            <span class="text-gray-800 font-medium">80%</span>
+          </div>
+          <div class="progress-bar mb-4">
+            <div class="progress-value bg-green-500" style="width: 80%"></div>
+          </div>
+          
+          <div class="flex justify-between mb-4">
+            <div class="text-center">
+              <p class="text-xs text-gray-500">Grade</p>
+              <p class="font-bold text-gray-800">A-</p>
+            </div>
+            <div class="text-center">
+              <p class="text-xs text-gray-500">Schedule</p>
+              <p class="font-bold text-gray-800">MWF</p>
+            </div>
+            <div class="text-center">
+              <p class="text-xs text-gray-500">Time</p>
+              <p class="font-bold text-gray-800">2:00 PM</p>
+            </div>
+            <div class="text-center">
+              <p class="text-xs text-gray-500">Room</p>
+              <p class="font-bold text-gray-800">210C</p>
+            </div>
+          </div>
+          
+          <div class="flex space-x-2">
+            <a href="#" class="w-full bg-orange-500 text-white text-center py-2 rounded-md font-medium hover:bg-orange-600 transition">View Course</a>
+          </div>
+        </div>
+
+        <!-- Course 4 -->
+        <div class="course-card border-purple-500 bg-white p-6 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-purple-100 rounded-md flex items-center justify-center text-purple-600">
+              <i class="fas fa-network-wired text-2xl"></i>
+            </div>
+            <span class="text-sm font-medium bg-purple-100 text-purple-600 px-2 py-1 rounded-full">3 Credits</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-800 mb-1">CS350: Computer Networks</h3>
+          <p class="text-sm text-gray-500 mb-4">Prof. Robert Lee</p>
+          
+          <div class="flex justify-between items-center mb-2 text-sm">
+            <span class="text-gray-600">Progress</span>
+            <span class="text-gray-800 font-medium">70%</span>
+          </div>
+          <div class="progress-bar mb-4">
+            <div class="progress-value bg-purple-500" style="width: 70%"></div>
+          </div>
+          
+          <div class="flex justify-between mb-4">
+            <div class="text-center">
+              <p class="text-xs text-gray-500">Grade</p>
+              <p class="font-bold text-gray-800">A</p>
+            </div>
+            <div class="text-center">
+              <p class="text-xs text-gray-500">Schedule</p>
+              <p class="font-bold text-gray-800">WF</p>
+            </div>
+            <div class="text-center">
+              <p class="text-xs text-gray-500">Time</p>
+              <p class="font-bold text-gray-800">4:00 PM</p>
+            </div>
+            <div class="text-center">
+              <p class="text-xs text-gray-500">Room</p>
+              <p class="font-bold text-gray-800">118D</p>
+            </div>
+          </div>
+          
+          <div class="flex space-x-2">
+            <a href="#" class="w-full bg-orange-500 text-white text-center py-2 rounded-md font-medium hover:bg-orange-600 transition">View Course</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Course Details -->
+      <div class="card bg-white p-6 mb-8">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-lg font-semibold text-gray-800">
+            <span class="text-orange-500">CS301:</span> Algorithms & Data Structures
+          </h3>
+          <button class="text-sm font-medium text-gray-500 flex items-center">
+            <i class="fas fa-star text-yellow-400 mr-1"></i> 
+            Favorite
+          </button>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Course Overview -->
+          <div class="md:col-span-2">
+            <h4 class="text-md font-semibold text-gray-800 mb-3">Course Overview</h4>
+            <p class="text-gray-600 mb-4">
+              This course covers the design and analysis of data structures and algorithms. Topics include: abstract data types, stacks, queues, linked lists, trees, graphs, hash tables, sorting and searching algorithms, and time complexity analysis.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div>
+                <h5 class="text-sm font-semibold text-gray-700 mb-2">Learning Outcomes</h5>
+                <ul class="text-sm text-gray-600 space-y-1">
+                  <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                    <span>Implement and apply various data structures</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                    <span>Analyze algorithm performance and complexity</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                    <span>Design efficient algorithms for problem-solving</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                    <span>Compare algorithmic approaches for optimization</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div>
+                <h5 class="text-sm font-semibold text-gray-700 mb-2">Assessment</h5>
+                <ul class="text-sm text-gray-600 space-y-1">
+                  <li class="flex items-start">
+                    <span class="text-orange-500 font-medium mr-2">30%</span>
+                    <span>Assignments (5)</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-orange-500 font-medium mr-2">20%</span>
+                    <span>Mid-term Exam</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-orange-500 font-medium mr-2">30%</span>
+                    <span>Final Exam</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-orange-500 font-medium mr-2">20%</span>
+                    <span>Project & Presentation</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="border-t border-gray-100 pt-4">
+              <h4 class="text-md font-semibold text-gray-800 mb-3">Upcoming Sessions</h4>
+              <div class="space-y-3">
+                <div class="flex justify-between items-center p-3 bg-orange-50 rounded-lg">
+                  <div class="flex items-center">
+                    <div class="flex flex-col items-center mr-4">
+                      <span class="text-sm font-medium text-gray-800">19</span>
+                      <span class="text-xs text-gray-500">APR</span>
+                    </div>
+                    <div>
+                      <h5 class="font-medium text-gray-800">Lecture: Graph Algorithms</h5>
+                      <p class="text-xs text-gray-500">9:00 - 10:30 AM • Room 302B</p>
+                    </div>
+                  </div>
+                  <span class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full">Next Class</span>
+                </div>
+                
+                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                  <div class="flex items-center">
+                    <div class="flex flex-col items-center mr-4">
+                      <span class="text-sm font-medium text-gray-800">21</span>
+                      <span class="text-xs text-gray-500">APR</span>
+                    </div>
+                    <div>
+                      <h5 class="font-medium text-gray-800">Lab: Graph Implementation</h5>
+                      <p class="text-xs text-gray-500">2:00 - 3:30 PM • Lab 104A</p>
+                    </div>
+                  </div>
+                  <span class="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded-full">Upcoming</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Instructor & Resources -->
+          <div>
+            <div class="mb-6">
+              <h4 class="text-md font-semibold text-gray-800 mb-3">Instructor</h4>
+              <div class="flex items-center">
+                <img src="https://ui-avatars.com/api/?name=Jennifer+Smith&background=f97316&color=fff" alt="Prof. Jennifer Smith" class="w-12 h-12 rounded-full object-cover mr-3">
+                <div>
+                  <h5 class="font-medium text-gray-800">Prof. Jennifer Smith</h5>
+                  <p class="text-sm text-gray-500">Department of Computer Science</p>
+                  <a href="mailto:jennifer.smith@university.edu" class="text-xs text-orange-500 hover:text-orange-600">jennifer.smith@university.edu</a>
+                </div>
+              </div>
+              <div class="mt-3 text-sm text-gray-600">
+                <p><span class="font-medium">Office Hours:</span> Mon, Wed 11:00 AM - 12:00 PM</p>
+                <p><span class="font-medium">Office:</span> CS Building, Room 425</p>
+              </div>
+            </div>
+            
+            <div class="mb-6">
+              <h4 class="text-md font-semibold text-gray-800 mb-3">Resources</h4>
+              <ul class="space-y-2">
+                <li>
+                  <a href="#" class="flex items-center py-2 px-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                    <i class="fas fa-book-open text-orange-500 mr-3"></i>
+                    <div class="flex-grow">
+                      <h5 class="text-sm font-medium text-gray-800">Course Syllabus</h5>
+                      <p class="text-xs text-gray-500">PDF • 245 KB</p>
+                    </div>
+                    <i class="fas fa-download text-gray-400"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="flex items-center py-2 px-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                    <i class="fas fa-file-powerpoint text-orange-500 mr-3"></i>
+                    <div class="flex-grow">
+                      <h5 class="text-sm font-medium text-gray-800">Lecture Slides</h5>
+                      <p class="text-xs text-gray-500">Week 8 • April 15, 2025</p>
+                    </div>
+                    <i class="fas fa-download text-gray-400"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="flex items-center py-2 px-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                    <i class="fas fa-file-code text-orange-500 mr-3"></i>
+                    <div class="flex-grow">
+                      <h5 class="text-sm font-medium text-gray-800">Lab Materials</h5>
+                      <p class="text-xs text-gray-500">Code samples and exercises</p>
+                    </div>
+                    <i class="fas fa-download text-gray-400"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="flex items-center py-2 px-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                    <i class="fas fa-link text-orange-500 mr-3"></i>
+                    <div class="flex-grow">
+                      <h5 class="text-sm font-medium text-gray-800">Online Textbook</h5>
+                      <p class="text-xs text-gray-500">Access through library portal</p>
+                    </div>
+                    <i class="fas fa-external-link-alt text-gray-400"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Mobile menu toggle
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('sidebar-hidden');
+      document.getElementById('sidebar').classList.toggle('md:block');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Portal - Grades</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9fafb;
+    }
+    .sidebar {
+      background-color: white;
+      height: 100vh;
+      position: fixed;
+      transition: all 0.3s ease;
+    }
+    .sidebar-hidden {
+      transform: translateX(-100%);
+    }
+    .nav-link {
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    .nav-link:hover {
+      background-color: #ffedd5;
+    }
+    .nav-link.active {
+      background-color: #f97316;
+      color: white;
+    }
+    .card {
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+    }
+    .progress-bar {
+      height: 8px;
+      border-radius: 4px;
+      background-color: #e5e7eb;
+    }
+    .progress-value {
+      height: 8px;
+      border-radius: 4px;
+      background-color: #f97316;
+    }
+    .grade-badge {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-weight: bold;
+    }
+    .tab-button {
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+    .tab-button.active {
+      border-bottom-color: #f97316;
+      color: #f97316;
+    }
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Mobile Nav Toggle -->
+  <div class="fixed top-4 left-4 z-30 md:hidden">
+    <button id="menu-toggle" class="p-2 bg-white rounded-lg shadow-md text-gray-700">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+
+  <!-- Sidebar Navigation -->
+  <aside id="sidebar" class="sidebar w-64 z-20 bg-white shadow-md md:block hidden overflow-y-auto">
+    <div class="px-6 py-4">
+      <h2 class="text-xl font-bold text-gray-800">Student Portal</h2>
+    </div>
+    <div class="px-3 py-2">
+      <ul class="space-y-2">
+        <li>
+          <a href="dashboard.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-home mr-3 w-5"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="schedule.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-calendar-alt mr-3 w-5"></i>
+            <span>Schedule</span>
+          </a>
+        </li>
+        <li>
+          <a href="courses.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-book mr-3 w-5"></i>
+            <span>Courses</span>
+          </a>
+        </li>
+        <li>
+          <a href="grades.html" class="nav-link active flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-chart-bar mr-3 w-5"></i>
+            <span>Grades</span>
+          </a>
+        </li>
+        <li>
+          <a href="attendance.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-calendar-check mr-3 w-5"></i>
+            <span>Attendance</span>
+          </a>
+        </li>
+        <li>
+          <a href="assignments.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-sticky-note mr-3 w-5"></i>
+            <span>Assignments</span>
+          </a>
+        </li>
+        <li>
+          <a href="profile.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-user mr-3 w-5"></i>
+            <span>Profile</span>
+          </a>
+        </li>
+        <li>
+          <a href="settings.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-cog mr-3 w-5"></i>
+            <span>Settings</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content transition-all duration-300 md:ml-64 min-h-screen pb-16">
+    <!-- Top Navigation -->
+    <nav class="bg-white shadow-sm px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center">
+        <h1 class="text-xl font-semibold text-gray-800">Grades</h1>
+      </div>
+      <div class="flex items-center space-x-4">
+        <button class="p-2 text-gray-600 hover:text-orange-500 rounded-full hover:bg-orange-50">
+          <i class="fas fa-bell"></i>
+        </button>
+        <a href="profile.html" class="relative bg-orange-50 p-1 rounded-full">
+          <img src="https://ui-avatars.com/api/?name=Pratham+Sharma&background=f97316&color=fff" alt="Profile" class="w-8 h-8 rounded-full">
+          <span class="absolute bottom-0 right-0 block h-2 w-2 rounded-full bg-green-500 ring-2 ring-white"></span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Grades Content -->
+    <div class="px-6 py-8">
+      <!-- Grades Overview -->
+      <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg p-6 mb-8 text-white shadow-md">
+        <div class="flex flex-col md:flex-row justify-between">
+          <div>
+            <h2 class="text-2xl font-bold">Your Academic Performance</h2>
+            <p class="mt-1">Spring Semester 2025 • IT Department</p>
+          </div>
+          <div class="mt-4 md:mt-0">
+            <div class="bg-white bg-opacity-20 p-4 rounded-lg flex flex-col items-center">
+              <h3 class="text-sm font-medium">Current CGPA</h3>
+              <p class="text-3xl font-bold">8.8</p>
+              <p class="text-sm flex items-center">
+                <i class="fas fa-arrow-up mr-1"></i> +0.2 from last semester
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Semester Select and Filter -->
+      <div class="flex flex-col md:flex-row items-center justify-between mb-6">
+        <div class="flex items-center mb-4 md:mb-0">
+          <button class="tab-button active py-2 px-4 font-medium text-gray-800">Current Semester</button>
+          <button class="tab-button py-2 px-4 font-medium text-gray-500">All Semesters</button>
+          <button class="tab-button py-2 px-4 font-medium text-gray-500">Grade Distribution</button>
+        </div>
+        <div class="flex w-full md:w-auto">
+          <select class="border border-gray-200 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700">
+            <option>Spring Semester 2025</option>
+            <option>Fall Semester 2024</option>
+            <option>Spring Semester 2024</option>
+            <option>Fall Semester 2023</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Grade Summary Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <!-- GPA Card -->
+        <div class="card bg-white p-5">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-gray-700 font-medium">Current GPA</h3>
+            <span class="text-orange-500 bg-orange-50 p-2 rounded-md">
+              <i class="fas fa-chart-line"></i>
+            </span>
+          </div>
+          <div>
+            <p class="text-3xl font-bold text-gray-800">8.9</p>
+            <p class="text-sm text-green-600 mt-1">Better than previous semester</p>
+          </div>
+        </div>
+
+        <!-- Total Credits Card -->
+        <div class="card bg-white p-5">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-gray-700 font-medium">Total Credits</h3>
+            <span class="text-orange-500 bg-orange-50 p-2 rounded-md">
+              <i class="fas fa-graduation-cap"></i>
+            </span>
+          </div>
+          <div>
+            <p class="text-3xl font-bold text-gray-800">14</p>
+            <p class="text-sm text-gray-600 mt-1">Out of 14 registered</p>
+          </div>
+        </div>
+
+        <!-- Highest Grade Card -->
+        <div class="card bg-white p-5">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-gray-700 font-medium">Highest Grade</h3>
+            <span class="text-orange-500 bg-orange-50 p-2 rounded-md">
+              <i class="fas fa-trophy"></i>
+            </span>
+          </div>
+          <div>
+            <p class="text-3xl font-bold text-gray-800">A</p>
+            <p class="text-sm text-gray-600 mt-1">in 2 courses this semester</p>
+          </div>
+        </div>
+
+        <!-- Class Rank Card -->
+        <div class="card bg-white p-5">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-gray-700 font-medium">Class Rank</h3>
+            <span class="text-orange-500 bg-orange-50 p-2 rounded-md">
+              <i class="fas fa-medal"></i>
+            </span>
+          </div>
+          <div>
+            <p class="text-3xl font-bold text-gray-800">Top 15%</p>
+            <p class="text-sm text-gray-600 mt-1">of 126 students in IT</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Current Semester Grades -->
+      <div class="card bg-white p-6 mb-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+          <h3 class="text-lg font-semibold text-gray-800">Current Semester Grades</h3>
+          <a href="#" class="text-orange-500 hover:text-orange-600 text-sm font-medium">Download Transcript</a>
+        </div>
+
+        <!-- Course Grades Table -->
+        <div class="overflow-x-auto">
+          <table class="min-w-full">
+            <thead>
+              <tr class="text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th class="px-4 py-3">Course</th>
+                <th class="px-4 py-3">Credits</th>
+                <th class="px-4 py-3">Grade</th>
+                <th class="px-4 py-3">Grade Points</th>
+                <th class="px-4 py-3">Marks</th>
+                <th class="px-4 py-3">Status</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <!-- Course 1 -->
+              <tr>
+                <td class="px-4 py-4">
+                  <div class="flex items-center">
+                    <div class="w-8 h-8 rounded bg-orange-100 flex items-center justify-center text-orange-600 mr-3">
+                      <i class="fas fa-code"></i>
+                    </div>
+                    <div>
+                      <p class="font-medium text-gray-800">CS301: Algorithms & Data Structures</p>
+                      <p class="text-xs text-gray-500">Prof. Jennifer Smith</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-4 py-4 text-gray-700">3</td>
+                <td class="px-4 py-4">
+                  <div class="grade-badge bg-green-100 text-green-800">A</div>
+                </td>
+                <td class="px-4 py-4 text-gray-700">9.0</td>
+                <td class="px-4 py-4">
+                  <div class="flex items-center">
+                    <span class="text-gray-700 mr-2">92/100</span>
+                    <div class="w-20 h-2 bg-gray-200 rounded-full">
+                      <div class="h-2 bg-green-500 rounded-full" style="width: 92%"></div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-4 py-4">
+                  <span class="text-xs font-medium bg-green-100 text-green-800 px-2 py-1 rounded">Complete</span>
+                </td>
+              </tr>
+
+              <!-- Course 2 -->
+              <tr>
+                <td class="px-4 py-4">
+                  <div class="flex items-center">
+                    <div class="w-8 h-8 rounded bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+                      <i class="fas fa-microchip"></i>
+                    </div>
+                    <div>
+                      <p class="font-medium text-gray-800">CS315: Operating Systems</p>
+                      <p class="text-xs text-gray-500">Prof. David Johnson</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-4 py-4 text-gray-700">4</td>
+                <td class="px-4 py-4">
+                  <div class="grade-badge bg-blue-100 text-blue-800">B+</div>
+                </td>
+                <td class="px-4 py-4 text-gray-700">8.5</td>
+                <td class="px-4 py-4">
+                  <div class="flex items-center">
+                    <span class="text-gray-700 mr-2">84/100</span>
+                    <div class="w-20 h-2 bg-gray-200 rounded-full">
+                      <div class="h-2 bg-blue-500 rounded-full" style="width: 84%"></div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-4 py-4">
+                  <span class="text-xs font-medium bg-green-100 text-green-800 px-2 py-1 rounded">Complete</span>
+                </td>
+              </tr>
+
+              <!-- Course 3 -->
+              <tr>
+                <td class="px-4 py-4">
+                  <div class="flex items-center">
+                    <div class="w-8 h-8 rounded bg-green-100 flex items-center justify-center text-green-600 mr-3">
+                      <i class="fas fa-database"></i>
+                    </div>
+                    <div>
+                      <p class="font-medium text-gray-800">CS280: Database Systems</p>
+                      <p class="text-xs text-gray-500">Prof. Maria Rodriguez</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-4 py-4 text-gray-700">4</td>
+                <td class="px-4 py-4">
+                  <div class="grade-badge bg-green-100 text-green-800">A-</div>
+                </td>
+                <td class="px-4 py-4 text-gray-700">8.7</td>
+                <td class="px-4 py-4">
+                  <div class="flex items-center">
+                    <span class="text-gray-700 mr-2">88/100</span>
+                    <div class="w-20 h-2 bg-gray-200 rounded-full">
+                      <div class="h-2 bg-green-500 rounded-full" style="width: 88%"></div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-4 py-4">
+                  <span class="text-xs font-medium bg-green-100 text-green-800 px-2 py-1 rounded">Complete</span>
+                </td>
+              </tr>
+
+              <!-- Course 4 -->
+              <tr>
+                <td class="px-4 py-4">
+                  <div class="flex items-center">
+                    <div class="w-8 h-8 rounded bg-purple-100 flex items-center justify-center text-purple-600 mr-3">
+                      <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div>
+                      <p class="font-medium text-gray-800">CS350: Computer Networks</p>
+                      <p class="text-xs text-gray-500">Prof. Robert Lee</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-4 py-4 text-gray-700">3</td>
+                <td class="px-4 py-4">
+                  <div class="grade-badge bg-green-100 text-green-800">A</div>
+                </td>
+                <td class="px-4 py-4 text-gray-700">9.0</td>
+                <td class="px-4 py-4">
+                  <div class="flex items-center">
+                    <span class="text-gray-700 mr-2">90/100</span>
+                    <div class="w-20 h-2 bg-gray-200 rounded-full">
+                      <div class="h-2 bg-green-500 rounded-full" style="width: 90%"></div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-4 py-4">
+                  <span class="text-xs font-medium bg-green-100 text-green-800 px-2 py-1 rounded">Complete</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Grade Distribution Chart -->
+      <div class="card bg-white p-6 mb-8">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-lg font-semibold text-gray-800">Grade Distribution</h3>
+          <div class="flex space-x-2">
+            <button class="text-sm bg-orange-100 text-orange-800 px-3 py-1 rounded-full">Current Semester</button>
+            <button class="text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full">Overall</button>
+          </div>
+        </div>
+        
+        <div class="h-64">
+          <canvas id="gradeDistributionChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Academic Progress -->
+      <div class="card bg-white p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-6">Academic Progress</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- CGPA Trend -->
+          <div>
+            <h4 class="text-md font-semibold text-gray-700 mb-4">CGPA Trend</h4>
+            <div class="h-64">
+              <canvas id="cgpaTrendChart"></canvas>
+            </div>
+          </div>
+          
+          <!-- Academic Summary -->
+          <div>
+            <h4 class="text-md font-semibold text-gray-700 mb-4">Academic Summary</h4>
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="text-sm font-medium text-gray-700">Credits Completed</span>
+                  <span class="text-sm font-medium text-gray-700">58/122</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-value" style="width: 47.5%"></div>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">48% of program requirements</p>
+              </div>
+              
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="text-sm font-medium text-gray-700">Core Courses</span>
+                  <span class="text-sm font-medium text-gray-700">12/18</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-value" style="width: 66.7%"></div>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">67% completed</p>
+              </div>
+              
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="text-sm font-medium text-gray-700">Electives</span>
+                  <span class="text-sm font-medium text-gray-700">6/12</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-value" style="width: 50%"></div>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">50% completed</p>
+              </div>
+              
+              <div class="bg-orange-50 p-4 rounded-lg mt-6">
+                <h5 class="text-sm font-semibold text-gray-800 mb-2">Academic Standing</h5>
+                <p class="text-sm text-gray-700">Good Standing</p>
+                <p class="text-xs text-gray-600 mt-1">You are on track to graduate by May 2026</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Mobile menu toggle
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('sidebar-hidden');
+      document.getElementById('sidebar').classList.toggle('md:block');
+    });
+    
+    // Initialize charts when DOM is loaded
+    window.addEventListener('DOMContentLoaded', function() {
+      // Grade Distribution Chart
+      const gradeDistributionCtx = document.getElementById('gradeDistributionChart').getContext('2d');
+      const gradeDistributionChart = new Chart(gradeDistributionCtx, {
+        type: 'bar',
+        data: {
+          labels: ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D', 'F'],
+          datasets: [{
+            label: 'Number of Courses',
+            data: [1, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+            backgroundColor: [
+              'rgba(249, 115, 22, 0.8)',
+              'rgba(249, 115, 22, 0.7)',
+              'rgba(249, 115, 22, 0.6)',
+              'rgba(249, 115, 22, 0.5)',
+              'rgba(249, 115, 22, 0.4)',
+              'rgba(249, 115, 22, 0.3)',
+              'rgba(209, 213, 219, 0.5)',
+              'rgba(209, 213, 219, 0.5)',
+              'rgba(209, 213, 219, 0.5)',
+              'rgba(209, 213, 219, 0.5)',
+              'rgba(209, 213, 219, 0.5)',
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                precision: 0
+              }
+            }
+          }
+        }
+      });
+      
+      // CGPA Trend Chart
+      const cgpaTrendCtx = document.getElementById('cgpaTrendChart').getContext('2d');
+      const cgpaTrendChart = new Chart(cgpaTrendCtx, {
+        type: 'line',
+        data: {
+          labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4 (Current)'],
+          datasets: [{
+            label: 'CGPA',
+            data: [8.4, 8.5, 8.6, 8.8],
+            fill: false,
+            borderColor: 'rgba(249, 115, 22, 1)',
+            tension: 0.1,
+            pointBackgroundColor: 'rgba(249, 115, 22, 1)',
+            pointRadius: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              min: 7,
+              max: 10
+            }
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Portal - Assignments</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9fafb;
+    }
+    .sidebar {
+      background-color: white;
+      height: 100vh;
+      position: fixed;
+      transition: all 0.3s ease;
+    }
+    .sidebar-hidden {
+      transform: translateX(-100%);
+    }
+    .nav-link {
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    .nav-link:hover {
+      background-color: #ffedd5;
+    }
+    .nav-link.active {
+      background-color: #f97316;
+      color: white;
+    }
+    .card {
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+    }
+    .assignment-card {
+      border-left: 4px solid;
+      transition: all 0.3s ease;
+    }
+    .assignment-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+    .progress-bar {
+      height: 8px;
+      border-radius: 4px;
+      background-color: #e5e7eb;
+    }
+    .progress-value {
+      height: 8px;
+      border-radius: 4px;
+    }
+    .tab-button {
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+    .tab-button.active {
+      border-bottom-color: #f97316;
+      color: #f97316;
+    }
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Mobile Nav Toggle -->
+  <div class="fixed top-4 left-4 z-30 md:hidden">
+    <button id="menu-toggle" class="p-2 bg-white rounded-lg shadow-md text-gray-700">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+
+  <!-- Sidebar Navigation -->
+  <aside id="sidebar" class="sidebar w-64 z-20 bg-white shadow-md md:block hidden overflow-y-auto">
+    <div class="px-6 py-4">
+      <h2 class="text-xl font-bold text-gray-800">Student Portal</h2>
+    </div>
+    <div class="px-3 py-2">
+      <ul class="space-y-2">
+        <li>
+          <a href="dashboard.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-home mr-3 w-5"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="schedule.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-calendar-alt mr-3 w-5"></i>
+            <span>Schedule</span>
+          </a>
+        </li>
+        <li>
+          <a href="courses.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-book mr-3 w-5"></i>
+            <span>Courses</span>
+          </a>
+        </li>
+        <li>
+          <a href="grades.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-chart-bar mr-3 w-5"></i>
+            <span>Grades</span>
+          </a>
+        </li>
+        <li>
+          <a href="attendance.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-calendar-check mr-3 w-5"></i>
+            <span>Attendance</span>
+          </a>
+        </li>
+        <li>
+          <a href="assignments.html" class="nav-link active flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-sticky-note mr-3 w-5"></i>
+            <span>Assignments</span>
+          </a>
+        </li>
+        <li>
+          <a href="profile.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-user mr-3 w-5"></i>
+            <span>Profile</span>
+          </a>
+        </li>
+        <li>
+          <a href="settings.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-cog mr-3 w-5"></i>
+            <span>Settings</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content transition-all duration-300 md:ml-64 min-h-screen pb-16">
+    <!-- Top Navigation -->
+    <nav class="bg-white shadow-sm px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center">
+        <h1 class="text-xl font-semibold text-gray-800">Assignments</h1>
+      </div>
+      <div class="flex items-center space-x-4">
+        <button class="p-2 text-gray-600 hover:text-orange-500 rounded-full hover:bg-orange-50">
+          <i class="fas fa-bell"></i>
+        </button>
+        <a href="profile.html" class="relative bg-orange-50 p-1 rounded-full">
+          <img src="https://ui-avatars.com/api/?name=Pratham+Sharma&background=f97316&color=fff" alt="Profile" class="w-8 h-8 rounded-full">
+          <span class="absolute bottom-0 right-0 block h-2 w-2 rounded-full bg-green-500 ring-2 ring-white"></span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Assignments Content -->
+    <div class="px-6 py-8">
+      <!-- Assignments Header -->
+      <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg p-6 mb-8 text-white shadow-md">
+        <div class="flex flex-col md:flex-row justify-between">
+          <div>
+            <h2 class="text-2xl font-bold">Assignments</h2>
+            <p class="mt-1">Spring Semester 2025</p>
+          </div>
+          <div class="mt-4 md:mt-0 flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
+            <div class="flex items-center">
+              <span class="inline-block w-3 h-3 bg-red-400 rounded-full mr-2"></span>
+              <span class="text-white text-sm">3 Due Soon</span>
+            </div>
+            <div class="flex items-center">
+              <span class="inline-block w-3 h-3 bg-green-400 rounded-full mr-2"></span>
+              <span class="text-white text-sm">2 Submitted</span>
+            </div>
+            <div class="flex items-center">
+              <span class="inline-block w-3 h-3 bg-blue-400 rounded-full mr-2"></span>
+              <span class="text-white text-sm">5 Upcoming</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Assignments Tabs and Filter -->
+      <div class="flex flex-col md:flex-row items-center justify-between mb-6">
+        <div class="flex items-center mb-4 md:mb-0">
+          <button class="tab-button active py-2 px-4 font-medium text-gray-800">All (10)</button>
+          <button class="tab-button py-2 px-4 font-medium text-gray-500">Due Soon (3)</button>
+          <button class="tab-button py-2 px-4 font-medium text-gray-500">Submitted (2)</button>
+          <button class="tab-button py-2 px-4 font-medium text-gray-500">Graded (0)</button>
+        </div>
+        <div class="flex w-full md:w-auto">
+          <div class="relative flex-grow md:flex-grow-0 mr-2">
+            <input type="text" placeholder="Search assignments..." class="w-full px-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <i class="fas fa-search text-gray-400"></i>
+            </div>
+          </div>
+          <select class="border border-gray-200 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700">
+            <option>All Courses</option>
+            <option>CS301: Algorithms</option>
+            <option>CS315: Operating Systems</option>
+            <option>CS280: Database Systems</option>
+            <option>CS350: Computer Networks</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Due Soon Assignments -->
+      <div class="card bg-white p-6 mb-8">
+        <h3 class="text-lg font-semibold text-gray-800 mb-6">Due Soon</h3>
+        
+        <div class="space-y-4">
+          <!-- Assignment 1 -->
+          <div class="assignment-card border-red-500 bg-white p-4 rounded-lg shadow-sm">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div class="flex items-start">
+                <div class="w-10 h-10 rounded-md bg-red-100 flex items-center justify-center text-red-600 mr-3 mt-1 flex-shrink-0">
+                  <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium text-gray-800">Final Project: Database Design Implementation</h4>
+                  <p class="text-sm text-gray-500 mt-1">CS280: Database Systems • Prof. Maria Rodriguez</p>
+                  <div class="flex flex-wrap items-center mt-2">
+                    <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded mr-2 mb-2">Due: Today, 11:59 PM</span>
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2 mb-2">30% of Grade</span>
+                    <span class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded mb-2">Group Project</span>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 md:mt-0 flex flex-col md:flex-row items-center md:space-x-2">
+                <a href="#" class="text-orange-500 hover:text-orange-600 text-sm font-medium mb-2 md:mb-0">View Details</a>
+                <button class="w-full md:w-auto bg-orange-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-orange-600 transition">Submit Assignment</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Assignment 2 -->
+          <div class="assignment-card border-red-500 bg-white p-4 rounded-lg shadow-sm">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div class="flex items-start">
+                <div class="w-10 h-10 rounded-md bg-red-100 flex items-center justify-center text-red-600 mr-3 mt-1 flex-shrink-0">
+                  <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium text-gray-800">Assignment 4: Memory Management Implementation</h4>
+                  <p class="text-sm text-gray-500 mt-1">CS315: Operating Systems • Prof. David Johnson</p>
+                  <div class="flex flex-wrap items-center mt-2">
+                    <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded mr-2 mb-2">Due: Tomorrow, 5:00 PM</span>
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2 mb-2">15% of Grade</span>
+                    <span class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded mb-2">Individual</span>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 md:mt-0 flex flex-col md:flex-row items-center md:space-x-2">
+                <a href="#" class="text-orange-500 hover:text-orange-600 text-sm font-medium mb-2 md:mb-0">View Details</a>
+                <button class="w-full md:w-auto bg-orange-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-orange-600 transition">Submit Assignment</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Assignment 3 -->
+          <div class="assignment-card border-orange-500 bg-white p-4 rounded-lg shadow-sm">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div class="flex items-start">
+                <div class="w-10 h-10 rounded-md bg-orange-100 flex items-center justify-center text-orange-600 mr-3 mt-1 flex-shrink-0">
+                  <i class="fas fa-clock"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium text-gray-800">Lab 5: Network Traffic Analysis</h4>
+                  <p class="text-sm text-gray-500 mt-1">CS350: Computer Networks • Prof. Robert Lee</p>
+                  <div class="flex flex-wrap items-center mt-2">
+                    <span class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded mr-2 mb-2">Due: Apr 21, 11:59 PM</span>
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2 mb-2">10% of Grade</span>
+                    <span class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded mb-2">Individual</span>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 md:mt-0 flex flex-col md:flex-row items-center md:space-x-2">
+                <a href="#" class="text-orange-500 hover:text-orange-600 text-sm font-medium mb-2 md:mb-0">View Details</a>
+                <button class="w-full md:w-auto bg-orange-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-orange-600 transition">Submit Assignment</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submitted Assignments -->
+      <div class="card bg-white p-6 mb-8">
+        <h3 class="text-lg font-semibold text-gray-800 mb-6">Submitted</h3>
+        
+        <div class="space-y-4">
+          <!-- Assignment 1 -->
+          <div class="assignment-card border-green-500 bg-white p-4 rounded-lg shadow-sm">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div class="flex items-start">
+                <div class="w-10 h-10 rounded-md bg-green-100 flex items-center justify-center text-green-600 mr-3 mt-1 flex-shrink-0">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium text-gray-800">Assignment 3: Red-Black Trees Implementation</h4>
+                  <p class="text-sm text-gray-500 mt-1">CS301: Algorithms & Data Structures • Prof. Jennifer Smith</p>
+                  <div class="flex flex-wrap items-center mt-2">
+                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded mr-2 mb-2">Submitted: Apr 12, 10:15 AM</span>
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2 mb-2">15% of Grade</span>
+                    <span class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded mb-2">Individual</span>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 md:mt-0 flex flex-col md:flex-row items-center md:space-x-2">
+                <span class="text-sm text-gray-500 mb-2 md:mb-0">Due: Apr 15, 11:59 PM</span>
+                <a href="#" class="text-orange-500 hover:text-orange-600 text-sm font-medium">View Submission</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Assignment 2 -->
+          <div class="assignment-card border-green-500 bg-white p-4 rounded-lg shadow-sm">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div class="flex items-start">
+                <div class="w-10 h-10 rounded-md bg-green-100 flex items-center justify-center text-green-600 mr-3 mt-1 flex-shrink-0">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium text-gray-800">Lab 4: SQL Queries and Database Normalization</h4>
+                  <p class="text-sm text-gray-500 mt-1">CS280: Database Systems • Prof. Maria Rodriguez</p>
+                  <div class="flex flex-wrap items-center mt-2">
+                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded mr-2 mb-2">Submitted: Apr 10, 4:30 PM</span>
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2 mb-2">10% of Grade</span>
+                    <span class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded mb-2">Individual</span>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 md:mt-0 flex flex-col md:flex-row items-center md:space-x-2">
+                <span class="text-sm text-gray-500 mb-2 md:mb-0">Due: Apr 11, 11:59 PM</span>
+                <a href="#" class="text-orange-500 hover:text-orange-600 text-sm font-medium">View Submission</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upcoming Assignments -->
+      <div class="card bg-white p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-6">Upcoming</h3>
+        
+        <div class="space-y-4">
+          <!-- Assignment 1 -->
+          <div class="assignment-card border-blue-500 bg-white p-4 rounded-lg shadow-sm">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div class="flex items-start">
+                <div class="w-10 h-10 rounded-md bg-blue-100 flex items-center justify-center text-blue-600 mr-3 mt-1 flex-shrink-0">
+                  <i class="fas fa-calendar"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium text-gray-800">Assignment 5: Advanced Sorting Algorithms</h4>
+                  <p class="text-sm text-gray-500 mt-1">CS301: Algorithms & Data Structures • Prof. Jennifer Smith</p>
+                  <div class="flex flex-wrap items-center mt-2">
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2 mb-2">Due: Apr 25, 11:59 PM</span>
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2 mb-2">15% of Grade</span>
+                    <span class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded mb-2">Individual</span>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 md:mt-0 flex flex-col md:flex-row items-center md:space-x-2">
+                <span class="text-sm text-gray-500 mb-2 md:mb-0">Released: Apr 18, 2025</span>
+                <a href="#" class="text-orange-500 hover:text-orange-600 text-sm font-medium">View Details</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Assignment 2 -->
+          <div class="assignment-card border-blue-500 bg-white p-4 rounded-lg shadow-sm">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div class="flex items-start">
+                <div class="w-10 h-10 rounded-md bg-blue-100 flex items-center justify-center text-blue-600 mr-3 mt-1 flex-shrink-0">
+                  <i class="fas fa-calendar"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium text-gray-800">Final Project: System Shell Implementation</h4>
+                  <p class="text-sm text-gray-500 mt-1">CS315: Operating Systems • Prof. David Johnson</p>
+                  <div class="flex flex-wrap items-center mt-2">
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2 mb-2">Due: May 5, 11:59 PM</span>
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2 mb-2">30% of Grade</span>
+                    <span class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded mb-2">Group Project</span>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 md:mt-0 flex flex-col md:flex-row items-center md:space-x-2">
+                <span class="text-sm text-gray-500 mb-2 md:mb-0">Released: Apr 20, 2025</span>
+                <a href="#" class="text-orange-500 hover:text-orange-600 text-sm font-medium">View Details</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Assignment 3 -->
+          <div class="assignment-card border-blue-500 bg-white p-4 rounded-lg shadow-sm">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div class="flex items-start">
+                <div class="w-10 h-10 rounded-md bg-blue-100 flex items-center justify-center text-blue-600 mr-3 mt-1 flex-shrink-0">
+                  <i class="fas fa-calendar"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium text-gray-800">Final Project: Network Security Implementation</h4>
+                  <p class="text-sm text-gray-500 mt-1">CS350: Computer Networks • Prof. Robert Lee</p>
+                  <div class="flex flex-wrap items-center mt-2">
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2 mb-2">Due: May 10, 11:59 PM</span>
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2 mb-2">30% of Grade</span>
+                    <span class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded mb-2">Group Project</span>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 md:mt-0 flex flex-col md:flex-row items-center md:space-x-2">
+                <span class="text-sm text-gray-500 mb-2 md:mb-0">Released: Apr 25, 2025</span>
+                <a href="#" class="text-orange-500 hover:text-orange-600 text-sm font-medium">View Details</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Mobile menu toggle
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('sidebar-hidden');
+      document.getElementById('sidebar').classList.toggle('md:block');
+    });
+  </script>
+</body>
+</html>

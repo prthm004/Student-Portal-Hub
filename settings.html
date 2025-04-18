@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Portal - Settings</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9fafb;
+    }
+    .sidebar {
+      background-color: white;
+      height: 100vh;
+      position: fixed;
+      transition: all 0.3s ease;
+    }
+    .sidebar-hidden {
+      transform: translateX(-100%);
+    }
+    .nav-link {
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    .nav-link:hover {
+      background-color: #ffedd5;
+    }
+    .nav-link.active {
+      background-color: #f97316;
+      color: white;
+    }
+    .card {
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+    }
+    .tab-button {
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+    .tab-button.active {
+      border-bottom-color: #f97316;
+      color: #f97316;
+    }
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 3.5rem;
+      height: 2rem;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #e5e7eb;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 1.5rem;
+      width: 1.5rem;
+      left: 0.25rem;
+      bottom: 0.25rem;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .toggle-slider {
+      background-color: #f97316;
+    }
+    input:checked + .toggle-slider:before {
+      transform: translateX(1.5rem);
+    }
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Mobile Nav Toggle -->
+  <div class="fixed top-4 left-4 z-30 md:hidden">
+    <button id="menu-toggle" class="p-2 bg-white rounded-lg shadow-md text-gray-700">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+
+  <!-- Sidebar Navigation -->
+  <aside id="sidebar" class="sidebar w-64 z-20 bg-white shadow-md md:block hidden overflow-y-auto">
+    <div class="px-6 py-4">
+      <h2 class="text-xl font-bold text-gray-800">Student Portal</h2>
+    </div>
+    <div class="px-3 py-2">
+      <ul class="space-y-2">
+        <li>
+          <a href="dashboard.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-home mr-3 w-5"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="schedule.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-calendar-alt mr-3 w-5"></i>
+            <span>Schedule</span>
+          </a>
+        </li>
+        <li>
+          <a href="courses.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-book mr-3 w-5"></i>
+            <span>Courses</span>
+          </a>
+        </li>
+        <li>
+          <a href="grades.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-chart-bar mr-3 w-5"></i>
+            <span>Grades</span>
+          </a>
+        </li>
+        <li>
+          <a href="attendance.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-calendar-check mr-3 w-5"></i>
+            <span>Attendance</span>
+          </a>
+        </li>
+        <li>
+          <a href="assignments.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-sticky-note mr-3 w-5"></i>
+            <span>Assignments</span>
+          </a>
+        </li>
+        <li>
+          <a href="3.html" class="nav-link flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-user mr-3 w-5"></i>
+            <span>Profile</span>
+          </a>
+        </li>
+        <li>
+          <a href="settings.html" class="nav-link active flex items-center px-4 py-3 text-gray-700">
+            <i class="fas fa-cog mr-3 w-5"></i>
+            <span>Settings</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content transition-all duration-300 md:ml-64 min-h-screen pb-16">
+    <!-- Top Navigation -->
+    <nav class="bg-white shadow-sm px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center">
+        <h1 class="text-xl font-semibold text-gray-800">Settings</h1>
+      </div>
+      <div class="flex items-center space-x-4">
+        <button class="p-2 text-gray-600 hover:text-orange-500 rounded-full hover:bg-orange-50">
+          <i class="fas fa-bell"></i>
+        </button>
+        <a href="3.html" class="relative bg-orange-50 p-1 rounded-full">
+          <img src="/api/placeholder/40/40" alt="Profile" class="w-8 h-8 rounded-full">
+          <span class="absolute bottom-0 right-0 block h-2 w-2 rounded-full bg-green-500 ring-2 ring-white"></span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Settings Content -->
+    <div class="px-6 py-8">
+      <!-- Settings Tabs -->
+      <div class="flex border-b border-gray-200 overflow-x-auto mb-8">
+        <button class="tab-button active py-4 px-6 font-medium text-gray-800">Account</button>
+        <button class="tab-button py-4 px-6 font-medium text-gray-500">Notifications</button>
+        <button class="tab-button py-4 px-6 font-medium text-gray-500">Privacy</button>
+        <button class="tab-button py-4 px-6 font-medium text-gray-500">Security</button>
+        <button class="tab-button py-4 px-6 font-medium text-gray-500">Appearance</button>
+        <button class="tab-button py-4 px-6 font-medium text-gray-500">Help & Support</button>
+      </div>
+
+      <!-- Account Settings Section -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Left Sidebar with Navigation -->
+        <div class="md:col-span-1">
+          <div class="card bg-white p-5 sticky top-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Account Settings</h3>
+            <nav class="space-y-1">
+              <a href="#personal-info" class="flex items-center px-3 py-2 text-sm font-medium text-orange-500 bg-orange-50 rounded-lg">
+                <i class="fas fa-user w-5 mr-2"></i>
+                Personal Information
+              </a>
+              <a href="#contact-info" class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg">
+                <i class="fas fa-envelope w-5 mr-2"></i>
+                Contact Information
+              </a>
+              <a href="#password" class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg">
+                <i class="fas fa-lock w-5 mr-2"></i>
+                Password & Security
+              </a>
+              <a href="#preferences" class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg">
+                <i class="fas fa-sliders-h w-5 mr-2"></i>
+                Preferences
+              </a>
+              <a href="#connected-accounts" class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg">
+                <i class="fas fa-link w-5 mr-2"></i>
+                Connected Accounts
+              </a>
+            </nav>
+          </div>
+        </div>
+
+        <!-- Right Content Area -->
+        <div class="md:col-span-2 space-y-6">
+          <!-- Personal Information -->
+          <div id="personal-info" class="card bg-white p-6">
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="text-lg font-semibold text-gray-800">Personal Information</h3>
+              <button class="text-orange-500 hover:text-orange-600 text-sm font-medium flex items-center">
+                <i class="fas fa-pen mr-1"></i>
+                Edit
+              </button>
+            </div>
+            
+            <div class="space-y-4">
+              <div class="flex items-center justify-center mb-6">
+                <div class="relative">
+                  <img src="/api/placeholder/100/100" alt="Profile" class="w-24 h-24 rounded-full object-cover bg-gray-100">
+                  <button class="absolute bottom-0 right-0 bg-orange-100 p-2 rounded-full text-orange-500 hover:bg-orange-200 transition">
+                    <i class="fas fa-camera"></i>
+                  </button>
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                  <input type="text" id="firstName" value="Pratham" class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                </div>
+                
+                <div>
+                  <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                  <input type="text" id="lastName" value="Sharma" class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                </div>
+                
+                <div>
+                  <label for="studentId" class="block text-sm font-medium text-gray-700 mb-1">Student ID</label>
+                  <input type="text" id="studentId" value="23FE10ITE00326" class="w-full px-3 py-2 border border-gray-200 rounded-md bg-gray-50" readonly>
+                </div>
+                
+                <div>
+                  <label for="dateOfBirth" class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                  <input type="date" id="dateOfBirth" value="2004-05-10" class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                </div>
+                
+                <div>
+                  <label for="gender" class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                  <select id="gender" class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                    <option value="male" selected>Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                    <option value="prefer-not-to-say">Prefer not to say</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label for="department" class="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                  <input type="text" id="department" value="IT" class="w-full px-3 py-2 border border-gray-200 rounded-md bg-gray-50" readonly>
+                </div>
+              </div>
+              
+              <div class="pt-4">
+                <button class="bg-orange-500 text-white px-4 py-2 rounded-md font-medium hover:bg-orange-600 transition">Save Changes</button>
+                <button class="border border-gray-200 text-gray-600 px-4 py-2 rounded-md font-medium ml-2 hover:bg-gray-50 transition">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Information -->
+          <div id="contact-info" class="card bg-white p-6">
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="text-lg font-semibold text-gray-800">Contact Information</h3>
+              <button class="text-orange-500 hover:text-orange-600 text-sm font-medium flex items-center">
+                <i class="fas fa-pen mr-1"></i>
+                Edit
+              </button>
+            </div>
+            
+            <div class="space-y-4">
+              <div class="grid grid-cols-1 gap-4">
+                <div>
+                  <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                  <div class="flex">
+                    <input type="email" id="email" value="PRATHAM.23FE10ITE00326@manipal.muj.edu" class="w-full px-3 py-2 border border-gray-200 rounded-l-md bg-gray-50" readonly>
+                    <span class="px-3 py-2 bg-gray-100 text-gray-600 text-sm rounded-r-md border border-l-0 border-gray-200">Primary</span>
+                  </div>
+                  <p class="text-xs text-gray-500 mt-1">This is your institutional email and cannot be changed</p>
+                </div>
+                
+                <div>
+                  <label for="personalEmail" class="block text-sm font-medium text-gray-700 mb-1">Personal Email</label>
+                  <input type="email" id="personalEmail" value="pratham.sharma@gmail.com" class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                </div>
+                
+                <div>
+                  <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                  <input type="tel" id="phone" value="7400089070" class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                </div>
+                
+                <div>
+                  <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                  <textarea id="address" rows="3" class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">GHS hostel, Manipal road, MUJ, Jaipur bagru</textarea>
+                </div>
+                
+                <div>
+                  <label for="emergencyContact" class="block text-sm font-medium text-gray-700 mb-1">Emergency Contact Name</label>
+                  <input type="text" id="emergencyContact" value="Prakhar Paawan" class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                </div>
+                
+                <div>
+                  <label for="emergencyPhone" class="block text-sm font-medium text-gray-700 mb-1">Emergency Contact Number</label>
+                  <input type="tel" id="emergencyPhone" value="1234567890" class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                </div>
+              </div>
+              
+              <div class="pt-4">
+                <button class="bg-orange-500 text-white px-4 py-2 rounded-md font-medium hover:bg-orange-600 transition">Save Changes</button>
+                <button class="border border-gray-200 text-gray-600 px-4 py-2 rounded-md font-medium ml-2 hover:bg-gray-50 transition">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Password & Security -->
+          <div id="password" class="card bg-white p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-6">Password & Security</h3>
+            
+            <div class="space-y-4">
+              <div>
+                <label for="currentPassword" class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+                <input type="password" id="currentPassword" placeholder="••••••••" class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+              </div>
+              
+              <div>
+                <label for="newPassword" class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                <input type="password" id="newPassword" placeholder="••••••••" class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+              </div>
+              
+              <div>
+                <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
+                <input type="password" id="confirmPassword" placeholder="••••••••" class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+              </div>
+              
+              <div class="bg-gray-50 p-4 rounded-md">
+                <p class="text-sm text-gray-800 font-medium">Password Requirements:</p>
+                <ul class="text-xs text-gray-600 mt-2 space-y-1">
+                  <li class="flex items-center">
+                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                    At least 8 characters long
+                  </li>
+                  <li class="flex items-center">
+                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                    Contains at least one uppercase letter
+                  </li>
+                  <li class="flex items-center">
+                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                    Contains at least one lowercase letter
+                  </li>
+                  <li class="flex items-center">
+                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                    Contains at least one number
+                  </li>
+                  <li class="flex items-center">
+                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                    Contains at least one special character
+                  </li>
+                </ul>
+              </div>
+              
+              <div class="pt-4">
+                <button class="bg-orange-500 text-white px-4 py-2 rounded-md font-medium hover:bg-orange-600 transition">Change Password</button>
+              </div>
+              
+              <div class="border-t border-gray-100 pt-6 mt-6">
+                <h4 class="font-medium text-gray-800 mb-4">Two-Factor Authentication</h4>
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-gray-700">Secure your account with 2FA</p>
+                    <p class="text-sm text-gray-500 mt-1">Add an extra layer of security to your account by requiring both your password and authentication code from your mobile phone.</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preferences -->
+          <div id="preferences" class="card bg-white p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-6">Preferences</h3>
+            
+            <div class="space-y-6">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-gray-700 font-medium">Email Notifications</p>
+                  <p class="text-sm text-gray-500 mt-1">Receive email notifications for new announcements, grades, and assignments</p>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-gray-700 font-medium">Due Date Reminders</p>
+                  <p class="text-sm text-gray-500 mt-1">Receive reminders for upcoming assignment deadlines</p>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-gray-700 font-medium">Grade Updates</p>
+                  <p class="text-sm text-gray-500 mt-1">Receive notifications when new grades are posted</p>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-gray-700 font-medium">Schedule Changes</p>
+                  <p class="text-sm text-gray-500 mt-1">Receive notifications for any changes to your class schedule</p>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
+              <div class="border-t border-gray-100 pt-6">
+                <div>
+                  <label for="language" class="block text-sm font-medium text-gray-700 mb-1">Language</label>
+                  <select id="language" class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                    <option value="en" selected>English</option>
+                    <option value="hi">Hindi</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                    <option value="de">German</option>
+                    <option value="zh">Chinese</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="pt-4">
+                <button class="bg-orange-500 text-white px-4 py-2 rounded-md font-medium hover:bg-orange-600 transition">Save Preferences</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connected Accounts -->
+          <div id="connected-accounts" class="card bg-white p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-6">Connected Accounts</h3>
+            
+            <div class="space-y-4">
+              <div class="flex items-center justify-between p-4 border border-gray-100 rounded-lg">
+                <div class="flex items-center">
+                  <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+                    <i class="fab fa-google"></i>
+                  </div>
+                  <div>
+                    <p class="font-medium text-gray-800">Google</p>
+                    <p class="text-sm text-gray-500">pratham.sharma@gmail.com</p>
+                  </div>
+                </div>
+                <button class="text-red-500 hover:text-red-600 text-sm font-medium">Disconnect</button>
+              </div>
+              
+              <div class="flex items-center justify-between p-4 border border-gray-100 rounded-lg">
+                <div class="flex items-center">
+                  <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+                    <i class="fab fa-microsoft"></i>
+                  </div>
+                  <div>
+                    <p class="font-medium text-gray-800">Microsoft</p>
+                    <p class="text-sm text-gray-500">Not connected</p>
+                  </div>
+                </div>
+                <button class="text-orange-500 hover:text-orange-600 text-sm font-medium">Connect</button>
+              </div>
+              
+              <div class="flex items-center justify-between p-4 border border-gray-100 rounded-lg">
+                <div class="flex items-center">
+                  <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+                    <i class="fab fa-github"></i>
+                  </div>
+                  <div>
+                    <p class="font-medium text-gray-800">GitHub</p>
+                    <p class="text-sm text-gray-500">Not connected</p>
+                  </div>
+                </div>
+                <button class="text-orange-500 hover:text-orange-600 text-sm font-medium">Connect</button>
+              </div>
+              
+              <div class="flex items-center justify-between p-4 border border-gray-100 rounded-lg">
+                <div class="flex items-center">
+                  <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+                    <i class="fab fa-linkedin"></i>
+                  </div>
+                  <div>
+                    <p class="font-medium text-gray-800">LinkedIn</p>
+                    <p class="text-sm text-gray-500">Not connected</p>
+                  </div>
+                </div>
+                <button class="text-orange-500 hover:text-orange-600 text-sm font-medium">Connect</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Account Actions -->
+          <div class="card bg-white p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-6">Account Actions</h3>
+            
+            <div class="space-y-4">
+              <div class="bg-gray-50 p-4 rounded-md">
+                <div class="flex items-center">
+                  <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 mr-3">
+                    <i class="fas fa-download"></i>
+                  </div>
+                  <div>
+                    <p class="font-medium text-gray-800">Download Your Data</p>
+                    <p class="text-sm text-gray-500">Download a copy of your personal data</p>
+                  </div>
+                </div>
+                <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-200 transition">Request Download</button>
+              </div>
+              
+              <div class="bg-red-50 p-4 rounded-md">
+                <div class="flex items-center">
+                  <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-600 mr-3">
+                    <i class="fas fa-ban"></i>
+                  </div>
+                  <div>
+                    <p class="font-medium text-gray-800">Deactivate Account</p>
+                    <p class="text-sm text-gray-500">Temporarily deactivate your account</p>
+                  </div>
+                </div>
+                <button class="mt-4 bg-red-100 text-red-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-red-200 transition">Deactivate Account</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script>
+    // Mobile menu toggle
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('hidden');
+      sidebar.classList.toggle('md:block');
+    });
+    
+    // Tab switching functionality
+    const tabButtons = document.querySelectorAll('.tab-button');
+    
+    tabButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        // Remove active class from all buttons
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        
+        // Add active class to clicked button
+        this.classList.add('active');
+        
+        // Here you would typically show/hide content based on the selected tab
+      });
+    });
+
+    // Smooth scrolling for in-page navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Get all sidebar links
+        const sidebarLinks = document.querySelectorAll('nav a');
+        
+        // Remove active class from all links
+        sidebarLinks.forEach(link => {
+          link.classList.remove('bg-orange-50', 'text-orange-500');
+          link.classList.add('text-gray-700', 'hover:bg-gray-50');
+        });
+        
+        // Add active class to clicked link
+        this.classList.remove('text-gray-700', 'hover:bg-gray-50');
+        this.classList.add('bg-orange-50', 'text-orange-500');
+        
+        // Smooth scroll to the element
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
